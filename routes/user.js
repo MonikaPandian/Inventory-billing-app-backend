@@ -97,7 +97,7 @@ router.post("/forgot-password", async (request, response) => {
 })
 
 //reset password
-router.post("/reset-password", async (request, response) => {
+router.post("/reset-password/:id/:token", async (request, response) => {
     const { id, token, password } = request.body;
 
     //check if this id exist in database
