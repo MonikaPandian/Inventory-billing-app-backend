@@ -23,7 +23,7 @@ export const client = await createConnection();
 app.use(express.json())
 
 app.get("/",(request,response)=>{
-    response.send("Hello Everyone good")
+    response.send("Hello Everyone. Welcome to the backend of Inventory billing application !!")
 })
 
 //specify movie router
