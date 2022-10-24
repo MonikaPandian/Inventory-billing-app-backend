@@ -16,7 +16,7 @@ router.post("/sign-up", async (request, response) => {
     if (isUserExist) {
         response.status(400).send({ message: "Username already taken" })
         return;
-    }   
+    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt)
@@ -33,7 +33,7 @@ router.post("/login", async (request, response) => {
         response.status(400).send({ message: "Invalid credentials" })
         return;
     }
-    
+
     const storedPassword = userFromDB.password;
 
     const isPasswordMatch = await bcrypt.compare(password, storedPassword)
@@ -52,20 +52,20 @@ router.post("/forgot-password", async (request, response) => {
 
     //Make sure user exists in database
     const userFromDB = await client.db("inventoryBilling").collection("users").findOne({ username: username })
-
     if (!userFromDB) {
         response.status(400).send({ message: "Enter a valid and registered email Id" })
         return;
     }
     //User exist and now create a one time link valid for 15 minutes
     const secret = process.env.SECRET_KEY + userFromDB.password;
+   
     const payload = {
         email: userFromDB.username,
         id: userFromDB._id
     }
 
     const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-    const link = `http://localhost:3000/reset-password/${userFromDB._id}/${token}`;
+    const link = `https://inventory-billing-app-751e91.netlify.app/reset-password/${userFromDB._id}/${token}`;
 
     var transporter = NodeMailer.createTransport({
         service: 'gmail',
@@ -92,7 +92,6 @@ router.post("/forgot-password", async (request, response) => {
             console.log('Email sent:' + info.response);
         }
     })
-
     response.send({ message: "success" });
 })
 
@@ -101,19 +100,19 @@ router.get("/reset-password/:id/:token", async (request, response) => {
     const { id, token } = request.params;
     //check if this id exist in database
     const userFromDB = await client.db("inventoryBilling").collection("users").findOne({ _id: ObjectId(id) })
-    if(!userFromDB){
-        response.status(400).send({ message: "User not exists!!"})
+    if (!userFromDB) {
+        response.status(400).send({ message: "User not exists!!" })
         return;
     }
-    const secret = process.env.SECRET_KEY + userFromDB.password;  
-    try{
-        const verify = jwt.verify(token,secret)
+    const secret = process.env.SECRET_KEY + userFromDB.password;
+    try {
+        const verify = jwt.verify(token, secret)
         response.send("Verified")
     }
-    catch(error){
+    catch (error) {
         response.send("Not Verified")
-    }           
     }
+}
 )
 
 router.post("/reset-password/:id/:token", async (request, response) => {
@@ -122,22 +121,25 @@ router.post("/reset-password/:id/:token", async (request, response) => {
 
     //check if this id exist in database
     const userFromDB = await client.db("inventoryBilling").collection("users").findOne({ _id: ObjectId(id) })
-    if(!userFromDB){
-        response.status(400).send({ message: "User not exists!!"})
+  
+    if (!userFromDB) {
+        response.status(400).send({ message: "User not exists!!" })
         return;
     }
-    const secret = process.env.SECRET_KEY + userFromDB.password;  
-    try{
-        const verify = jwt.verify(token,secret)
+    const secret = process.env.SECRET_KEY + userFromDB.password;
+    try {
+        const verify = jwt.verify(token, secret)
+        console.log(verify)
         const salt = await bcrypt.genSalt(10);
-        const encryptedPassword = await bcrypt.hash(password,salt)
-        const updatePassword = await client.db("inventoryBilling").collection("users").updateOne({ _id: ObjectId(id) }, { $set: {password : encryptedPassword} })
-        response.send({message: "Password updated"})
+        const encryptedPassword = await bcrypt.hash(password, salt)
+        const updatePassword = await client.db("inventoryBilling").collection("users").updateOne({ _id: ObjectId(id) }, { $set: { password: encryptedPassword } })
+        response.send({ message: "Password updated" })
     }
-    catch(error){
-        response.send({message: "Something went wrong"})
-    }           
-})
+    catch (error) {
+        response.send({ message: "Token expired" })
 
+    }
+
+})
 
 export const userRouter = router;
