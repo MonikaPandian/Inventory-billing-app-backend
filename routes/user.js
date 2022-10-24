@@ -80,7 +80,7 @@ router.post("/forgot-password", async (request, response) => {
         to: `${userFromDB.username}`,
         subject: 'Inventory billing Application Password reset link',
         html: `We have received your request for reset password. Click this link to reset your password.<br>
-              <a href = ${link}>Click Here</a><br>
+              <a style="font-size:20px" href = ${link}>Click Here</a><br>
               <p>This link is valid for 15 minutes from your request initiation for password recovery.</p>`
     };
 
