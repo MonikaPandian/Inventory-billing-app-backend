@@ -3,6 +3,7 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from 'dotenv';
 import { userRouter } from './routes/user.js';
+import {customersRouter} from './routes/customersRouter.js'
 
 dotenv.config()
 
@@ -28,6 +29,8 @@ app.get("/",(request,response)=>{
 
 //specify movie router
 app.use('/users',userRouter)
+app.use('/customers',customersRouter)
+
 
 //create a server
 app.listen(PORT,()=>console.log("server started on port",PORT));
