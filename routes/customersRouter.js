@@ -29,7 +29,12 @@ router.put("/:id", async(request,response) => {
     const { id } = request.params;
     const updateCustomer = request.body;
     const result = await client.db("inventoryBilling").collection("customers").updateOne({ _id: ObjectId(id) }, { $set: updateCustomer })
-    response.send(result)
+    if(!result){
+        response.send({message:"error"})
+        return;
+    }
+    const updatedCustomer = await client.db("inventoryBilling").collection("customers").findOne({ _id: ObjectId(id)})
+    response.send(updatedCustomer)
 })
 
 //delete a customer
