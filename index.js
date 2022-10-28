@@ -4,6 +4,8 @@ import { MongoClient } from "mongodb";
 import dotenv from 'dotenv';
 import { userRouter } from './routes/user.js';
 import {customersRouter} from './routes/customersRouter.js'
+import {stocksRouter} from './routes/stocksRouter.js'
+import {suppliersRouter} from './routes/suppliersRouter.js'
 
 dotenv.config()
 
@@ -30,7 +32,8 @@ app.get("/",(request,response)=>{
 //specify movie router
 app.use('/users',userRouter)
 app.use('/customers',customersRouter)
-
+app.use('/stocks',stocksRouter)
+app.use('/suppliers',suppliersRouter)
 
 //create a server
 app.listen(PORT,()=>console.log("server started on port",PORT));

@@ -4,31 +4,31 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-//get all customers
+//get all suppliers
 router.get("/",async (request,response)=>{
-    const customers = await client.db("inventoryBilling").collection("customers").find().toArray();
-    response.send(customers);
+    const suppliers = await client.db("inventoryBilling").collection("suppliers").find().toArray();
+    response.send(suppliers);
 })
  
-//to get a customer
+//to get a supplier
 router.get("/:id",async (request,response)=>{
     const {id} = request.params;
-    const customer = await client.db("inventoryBilling").collection("customers").findOne({_id : ObjectId(id)})   
-    response.send(customer);
+    const supplier = await client.db("inventoryBilling").collection("suppliers").findOne({_id : ObjectId(id)})   
+    response.send(supplier);
 })
 
-//to insert customer to db
+//to insert supplier to db
 router.post("/",async(request,response)=>{
-    const newCustomer = request.body;
-    const result = await client.db("inventoryBilling").collection("customers").insertOne(newCustomer)
+    const newSupplier = request.body;
+    const result = await client.db("inventoryBilling").collection("suppliers").insertOne(newsupplier)
     response.send(result)
 })
 
-//to update a customer
+//to update a supplier
 router.put("/:id", async(request,response) => {
     const { id } = request.params;
-    const updateCustomer = request.body;
-    const result = await client.db("inventoryBilling").collection("customers").updateOne({ _id: ObjectId(id) }, { $set: updateCustomer })
+    const updateSupplier = request.body;
+    const result = await client.db("inventoryBilling").collection("suppliers").updateOne({ _id: ObjectId(id) }, { $set: updatesupplier })
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     if(!result){
         response.send({message:"error"})
@@ -37,11 +37,11 @@ router.put("/:id", async(request,response) => {
     response.send(result)
 })
 
-//delete a customer
+//delete a supplier
 router.delete("/:id",async(request,response)=>{
     const { id } = request.params;
-    const result = await client.db("inventoryBilling").collection("customers").deleteOne({_id: ObjectId(id)})
+    const result = await client.db("inventoryBilling").collection("suppliers").deleteOne({_id: ObjectId(id)})
     response.send(result)
 })
 
-export const customersRouter = router;
+export const suppliersRouter = router;
