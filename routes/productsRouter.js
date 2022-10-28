@@ -4,31 +4,31 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-//get all stocks
+//get all products
 router.get("/",async (request,response)=>{
-    const stocks = await client.db("inventoryBilling").collection("stocks").find().toArray();
-    response.send(stocks);
+    const products = await client.db("inventoryBilling").collection("products").find().toArray();
+    response.send(products);
 })
  
-//to get a stock
+//to get a product
 router.get("/:id",async (request,response)=>{
     const {id} = request.params;
-    const stock = await client.db("inventoryBilling").collection("stocks").findOne({_id : ObjectId(id)})   
-    response.send(stock);
+    const product = await client.db("inventoryBilling").collection("products").findOne({_id : ObjectId(id)})   
+    response.send(product);
 })
 
-//to insert a stock to db
+//to insert a product to db
 router.post("/",async(request,response)=>{
-    const newStock = request.body;
-    const result = await client.db("inventoryBilling").collection("stocks").insertOne(newStock)
+    const newProduct = request.body;
+    const result = await client.db("inventoryBilling").collection("products").insertOne(newProduct)
     response.send(result)
 })
 
-//to update a stock
+//to update a product
 router.put("/:id", async(request,response) => {
     const { id } = request.params;
-    const updateStock = request.body;
-    const result = await client.db("inventoryBilling").collection("stocks").updateOne({ _id: ObjectId(id) }, { $set: updateStock })
+    const updateProduct = request.body;
+    const result = await client.db("inventoryBilling").collection("products").updateOne({ _id: ObjectId(id) }, { $set: updateProduct })
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     if(!result){
         response.send({message:"error"})
@@ -37,10 +37,10 @@ router.put("/:id", async(request,response) => {
     response.send(result)
 })
 
-//delete a stock
+//delete a product
 router.delete("/:id",async(request,response)=>{
     const { id } = request.params;
-    const result = await client.db("inventoryBilling").collection("stocks").deleteOne({_id: ObjectId(id)})   
+    const result = await client.db("inventoryBilling").collection("products").deleteOne({_id: ObjectId(id)})   
     if(!result){
         response.send({message:"error"})
         return;
@@ -48,4 +48,4 @@ router.delete("/:id",async(request,response)=>{
     response.send({message:"success"})    
 })
 
-export const stocksRouter = router;
+export const productsRouter = router;
