@@ -8,6 +8,7 @@ import {stocksRouter} from './routes/stocksRouter.js'
 import {suppliersRouter} from './routes/suppliersRouter.js'
 import {productsRouter} from './routes/productsRouter.js'
 import {cardsRouter} from './routes/cardsRouter.js'
+import {billsRouter} from './routes/billsRouter.js'
 
 dotenv.config()
 
@@ -38,6 +39,7 @@ app.use('/stocks',stocksRouter)
 app.use('/suppliers',suppliersRouter)
 app.use('/products',productsRouter)
 app.use('/cards',cardsRouter)
+app.use('/bills',billsRouter)
 
 //create a server
 app.listen(PORT,()=>console.log("server started on port",PORT));
