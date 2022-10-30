@@ -2,13 +2,14 @@ import cors from "cors";
 import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from 'dotenv';
-import { userRouter } from './routes/user.js';
+import { userRouter } from './routes/userRouter.js';
 import {customersRouter} from './routes/customersRouter.js'
 import {stocksRouter} from './routes/stocksRouter.js'
 import {suppliersRouter} from './routes/suppliersRouter.js'
 import {productsRouter} from './routes/productsRouter.js'
 import {cardsRouter} from './routes/cardsRouter.js'
 import {billsRouter} from './routes/billsRouter.js'
+import {adminRouter} from './routes/adminRouter.js'
 
 dotenv.config()
 
@@ -33,6 +34,7 @@ app.get("/",(request,response)=>{
 })
 
 //specify movie router
+app.use('/admin',adminRouter)
 app.use('/users',userRouter)
 app.use('/customers',customersRouter)
 app.use('/stocks',stocksRouter)
