@@ -46,5 +46,30 @@ router.post("/login", async (request, response) => {
     response.send({ message: "Successful login", token: token, username: userFromDB.username, id: userFromDB._id, isAdmin: true, firstName: userFromDB.firstName, lastName: userFromDB.lastName });
 })
 
+router.put("/profile/:id", async (request, response) => {
+    const {id} = request.params;    
+    const updateProfile = request.body;
+
+    const isUserExist = await client.db("inventoryBilling").collection("admin").findOne({ _id: ObjectId(id) })
+   
+    if (!isUserExist) {
+        response.status(400).send({ message: "Invalid credentials" })
+        return;
+    }
+    const result = await client.db("inventoryBilling").collection("admin").updateOne({ _id: ObjectId(id) }, { $set: updateProfile });
+    response.send(result)
+})
+
+router.post("/profile", async (request, response) => {
+    const {username} = request.body;    
+  
+    const result = await client.db("inventoryBilling").collection("admin").findOne({ username: username})
+   
+    if (!result) {
+        response.status(400).send({ message: "Invalid credentials" })
+        return;
+    }      
+    response.send(result)
+})
 
 export const adminRouter = router;
