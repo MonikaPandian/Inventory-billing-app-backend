@@ -12,6 +12,7 @@ import {billsRouter} from './routes/billsRouter.js'
 import {adminRouter} from './routes/adminRouter.js'
 import {invoicesRouter} from './routes/invoicesRouter.js'
 import {ordersRouter} from './routes/ordersRouter.js'
+import {notificationsRouter} from './routes/notificationsRouter.js'
 
 dotenv.config()
 
@@ -46,6 +47,7 @@ app.use('/cards',cardsRouter)
 app.use('/bills',billsRouter)
 app.use('/invoices',invoicesRouter)
 app.use('/orders',ordersRouter)
+app.use('/notifications',notificationsRouter)
 
 //create a server
 app.listen(PORT,()=>console.log("server started on port",PORT));
