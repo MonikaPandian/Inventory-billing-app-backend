@@ -4,8 +4,6 @@ import { ObjectId } from "mongodb";
 
 const router = express.Router();
 
-
-
 //get orders count
 router.get("/count",async (request,response)=>{
     const ordersCount = (await client.db("inventoryBilling").collection("orders").countDocuments()).toString();
