@@ -33,7 +33,7 @@ export const client = await createConnection();
 app.use(express.json())
 
 app.get("/",(request,response)=>{
-    response.send("Hello Everyone. Welcome to the backend of Inventory billing application \n The API endpoints are /customers, /stocks, /suppliers, /products, /cards, /bills, /invoices, /orders, /notifications !!")
+    response.send("Hello Everyone. Welcome to the backend of Inventory billing application !! \n The API endpoints are /customers, /stocks, /suppliers, /products, /cards, /bills, /invoices, /orders, /notifications")
 })
 
 //specify movie router
