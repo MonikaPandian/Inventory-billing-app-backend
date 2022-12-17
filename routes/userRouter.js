@@ -134,17 +134,14 @@ router.post("/reset-password/:id/:token", async (request, response) => {
     const secret = process.env.SECRET_KEY + userFromDB.password;
     try {
         const verify = jwt.verify(token, secret)
-        console.log(verify)
         const salt = await bcrypt.genSalt(10);
-        const encryptedPassword = await bcrypt.hash(password, salt)
-        console.log(encryptedPassword)
+        const encryptedPassword = await bcrypt.hash(password, salt)        
         const updatePassword = await client.db("inventoryBilling").collection("users").updateOne({ _id: ObjectId(id) }, { $set: { password: encryptedPassword } })
         response.send({ message: "Password updated successfully" })
     }
     catch (error) {
         response.send({ message: "Token expired" })
     }
-
 })
 
 export const userRouter = router;
