@@ -80,7 +80,7 @@ router.post("/forgot-password", async (request, response) => {
             service: 'gmail',
             auth: {
                 user: 'panmonikmm@gmail.com',
-                pass: 'lxkugchepioxgtmr'
+                pass: process.env.EMAIL_APP_PASSWORD
             }
         });
 
