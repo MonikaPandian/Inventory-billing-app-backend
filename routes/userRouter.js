@@ -74,7 +74,7 @@ router.post("/forgot-password", async (request, response) => {
         }
 
         const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-        const link = `http://localhost:3000/reset-password/${userFromDB._id}/${token}`;
+        const link = `https://inventory-billing-app-751e91.netlify.app/reset-password/${userFromDB._id}/${token}`;
 
         var transporter = NodeMailer.createTransport({
             service: 'gmail',
