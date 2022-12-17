@@ -74,7 +74,7 @@ router.post("/forgot-password", async (request, response) => {
         }
 
         const token = jwt.sign(payload, secret, { expiresIn: '15m' })
-        const link = `https://inventory-billing-app-751e91.netlify.app/reset-password/${userFromDB._id}/${token}`;
+        const link = `http://localhost:3000/reset-password/${userFromDB._id}/${token}`;
 
         var transporter = NodeMailer.createTransport({
             service: 'gmail',
@@ -137,12 +137,12 @@ router.post("/reset-password/:id/:token", async (request, response) => {
         console.log(verify)
         const salt = await bcrypt.genSalt(10);
         const encryptedPassword = await bcrypt.hash(password, salt)
+        console.log(encryptedPassword)
         const updatePassword = await client.db("inventoryBilling").collection("users").updateOne({ _id: ObjectId(id) }, { $set: { password: encryptedPassword } })
-        response.send({ message: "Password updated" })
+        response.send({ message: "Password updated successfully" })
     }
     catch (error) {
         response.send({ message: "Token expired" })
-
     }
 
 })
